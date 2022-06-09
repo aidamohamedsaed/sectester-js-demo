@@ -1,0 +1,22 @@
+// ./test/sec/users.e2e-spec.ts
+import { UsersModule } from '../../src/users';
+import config from '../../src/mikro-orm.config';
+import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+
+describe('/users', () => {
+  let app!: INestApplication;
+
+  beforeAll(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [UsersModule, MikroOrmModule.forRoot(config)]
+    }).compile();
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  afterAll(() => app.close());
+});
+
